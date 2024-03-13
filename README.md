@@ -170,115 +170,69 @@ Now, create one  **test.js** file to execute the test cases. For This, TestCafe 
 Let's have a look at **test.js** script.
 
 ```JavaScript
+import { Selector } from 'testcafe';
 import Page from './page-model';
- 
+
 fixture `A set of examples that illustrate how to use TestCafe API`
-    .page `https://devexpress.github.io/testcafe/example/`;
- 
+    .page `https://guidetoiceland.is/`;
+
 // Page model
 const page = new Page();
- 
-// Tests
-test('Text typing basics', async t => {
+
+test('Entering Location', async t => {
     await t
-        .typeText(page.nameInput, 'Peter') // Type name
-        .typeText(page.nameInput, 'Paker', { replace: true }) // Replace with last name
-        .typeText(page.nameInput, 'r', { caretPos: 2 }) // Correct last name
-        .expect(page.nameInput.value).eql('Parker'); // Check result
+        .wait(20000)
+        .click(Selector("input[type='search']"))
+        .wait(5000)
+        .click(Selector("a[data-id='31']"))
+        .wait(30000)
+        .click(Selector("button[aria-label='close']"))
+        .wait(10000);
+    
+    const thirdSpanItem = Selector("span.x-1sgcgls.ep9uefx3").nth(2);
+    await t
+        .click(thirdSpanItem)
+        .wait(5000);
+    const firstDate = Selector("div.x-1c1e297.ef2b54w1").nth(40);
+    await t
+        .click(firstDate)
+        .wait(15000);
+    const lastDate = Selector("div.x-1c1e297.ef2b54w1").nth(50);
+    await t
+        .click(lastDate)
+        .wait(15000);
+    const dateSelectour = Selector("button.x-1ohihg6.e1khzlvf1").nth(2);
+    await t
+        .click(dateSelectour)
+        .wait(15000);
+    const submit_button = Selector("button._2G_fw._1nNbL.e1r1ywj62.x-1i0fcuf.e8ahjg70").nth(0);
+    await t
+        .click(submit_button)
+        .wait(45000);
 });
- 
- 
-test('Click an array of labels and then check their states', async t => {
-    for (const feature of page.featureList) {
-        await t
-            .click(feature.label)
-            .expect(feature.checkbox.checked).ok();
-    }
-});
- 
- 
-test('Dealing with text using keyboard', async t => {
-    await t
-        .typeText(page.nameInput, 'Peter Parker') // Type name
-        .click(page.nameInput, { caretPos: 5 }) // Move caret position
-        .pressKey('backspace') // Erase a character
-        .expect(page.nameInput.value).eql('Pete Parker') // Check result
-        .pressKey('home right . delete delete delete') // Pick even shorter form for name
-        .expect(page.nameInput.value).eql('P. Parker'); // Check result
-});
- 
- 
-test('Moving the slider', async t => {
-    const initialOffset = await page.slider.handle.offsetLeft;
- 
-    await t
-        .click(page.triedTestCafeCheckbox)
-        .dragToElement(page.slider.handle, page.slider.tick.withText('9'))
-        .expect(page.slider.handle.offsetLeft).gt(initialOffset);
-});
- 
- 
-test('Dealing with text using selection', async t => {
-    await t
-        .typeText(page.nameInput, 'Test Cafe')
-        .selectText(page.nameInput, 7, 1)
-        .pressKey('delete')
-        .expect(page.nameInput.value).eql('Tfe'); // Check result
-});
- 
- 
-test('Handle native confirmation dialog', async t => {
-    await t
-        .setNativeDialogHandler(() => true)
-        .click(page.populateButton);
- 
-    const dialogHistory = await t.getNativeDialogHistory();
- 
-    await t.expect(dialogHistory[0].text).eql('Reset information before proceeding?');
- 
-    await t
-        .click(page.submitButton)
-        .expect(page.results.innerText).contains('Peter Parker');
-});
- 
- 
-test('Pick option from select', async t => {
-    await t
-        .click(page.interfaceSelect)
-        .click(page.interfaceSelectOption.withText('Both'))
-        .expect(page.interfaceSelect.value).eql('Both');
-});
- 
- 
-test('Filling a form', async t => {
-    // Fill some basic fields
-    await t
-        .typeText(page.nameInput, 'Bruce Wayne')
-        .click(page.macOSRadioButton)
-        .click(page.triedTestCafeCheckbox);
- 
-    // Let's leave a comment...
-    await t
-        .typeText(page.commentsTextArea, "It's...")
-        .wait(500)
-        .typeText(page.commentsTextArea, '\ngood');
- 
-    // I guess, I've changed my mind
-    await t
-        .wait(500)
-        .selectTextAreaContent(page.commentsTextArea, 1, 0)
-        .pressKey('delete')
-        .typeText(page.commentsTextArea, 'awesome!!!');
- 
-    // Let's submit our form
-    await t
-        .wait(500)
-        .click(page.submitButton)
-        .expect(page.results.innerText).contains('Bruce Wayne');
-});
+
 ```
 
 We are all set  with the script structure, and now need to run the **test.js** file from the terminal or command prompt  to initiate the test on the LambdaTest platform .
+
+
+##Confrigration inside config.json
+
+```
+{
+    "iPhone 11@14.0:ios:isReal_1": {
+        "LT:Options": {
+          "project": "TestCafe project",
+          "build": "TestCafe build",
+          "network": true,
+          "visual": true,
+          "queueTimeout": "900",
+          "w3c": true,
+          "plugin": "node_js-testCafe"
+        }
+      }
+}
+```
 
 ### Running the Test :
 
@@ -289,15 +243,14 @@ We are all set  with the script structure, and now need to run the **test.js** f
 Here is the snapshot for above steps:
 
 ```
-C:\Users\Admin\Desktop\vscode\testcafe-sample> set LT_USERNAME= shwetas
-
-C:\Users\Admin\Desktop\vscode\testcafe-sample>set LT_ACCESS_KEY= 5657878ghyg
+set LT_USERNAME= shwetas
+set LT_ACCESS_KEY= 5657878ghyg
 ```
 
 Now it’s time to enter the command for executing the test on desired configuration
 
 ```
-C:\Users\Admin\Desktop\vscode\testcafe-sample>testcafe "lambdatest:Chrome @85.0:Windows 10" "test.js"
+testcafe "lambdatest:iPhone 11@14.0:ios:isReal_1" "travelshift.js"
 ```
 Tunnel established connection internally after authentication of credentials:
 
