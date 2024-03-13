@@ -1,0 +1,1 @@
+testcafe "lambdatest:iPhone 13 Pro Max@15.0:ios:isReal" "test.js"

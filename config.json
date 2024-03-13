@@ -1,0 +1,13 @@
+{
+    "iPhone 11@14.0:ios:isReal_1": {
+        "LT:Options": {
+          "project": "TestCafe project",
+          "build": "TestCafe build",
+          "network": true,
+          "visual": true,
+          "queueTimeout": "900",
+          "w3c": true,
+          "plugin": "node_js-testCafe"
+        }
+      }
+}
